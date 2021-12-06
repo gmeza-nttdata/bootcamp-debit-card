@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nttdata.bootcamp</groupId>
-	<artifactId>debit-card</artifactId>
+	<artifactId>debit-card-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>debit-card</name>
+	<name>debit-card-service</name>
 	<description>Debit card project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
