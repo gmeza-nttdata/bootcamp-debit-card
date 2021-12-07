@@ -1,8 +1,8 @@
 package com.nttdata.bootcamp.debitcardservice.infrastructure.repository;
 
-import com.nttdata.bootcamp.debitcardservice.application.repository.StatementRepository;
-import com.nttdata.bootcamp.debitcardservice.domain.DebitCardStatement;
-import com.nttdata.bootcamp.debitcardservice.infrastructure.model.dao.DebitCardStatementDao;
+import com.nttdata.bootcamp.debitcardservice.application.repository.DebitCardRepository;
+import com.nttdata.bootcamp.debitcardservice.domain.DebitCard;
+import com.nttdata.bootcamp.debitcardservice.infrastructure.model.dao.DebitCardDao;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,26 +10,26 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
-public class StatementCrudRepository implements StatementRepository {
+public class DebitCardCrudRepository implements DebitCardRepository {
 
     @Autowired
-    IStatementCrudRepository repository;
+    IDebitCardCrudRepository repository;
 
 
     @Override
-    public Flux<DebitCardStatement> queryAll() {
+    public Flux<DebitCard> queryAll() {
         return repository.findAll()
                 .map(this::mapStatementDaoToStatement);
     }
 
     @Override
-    public Mono<DebitCardStatement> findById(String id) {
+    public Mono<DebitCard> findById(String id) {
         return repository.findById(id)
                 .map(this::mapStatementDaoToStatement);
     }
 
     @Override
-    public Mono<DebitCardStatement> create(DebitCardStatement accountStatement) {
+    public Mono<DebitCard> create(DebitCard accountStatement) {
         return Mono.just(accountStatement)
                 .doOnNext(s -> s.setId(null))
                 .map(this::mapStatementToStatementDao)
@@ -38,7 +38,7 @@ public class StatementCrudRepository implements StatementRepository {
     }
 
     @Override
-    public Mono<DebitCardStatement> update(String id, DebitCardStatement accountStatement) {
+    public Mono<DebitCard> update(String id, DebitCard accountStatement) {
         return repository.findById(id)
                 .flatMap(s -> {
                     s.setId(id);
@@ -53,14 +53,14 @@ public class StatementCrudRepository implements StatementRepository {
         return repository.deleteById(id);
     }
 
-    private DebitCardStatement mapStatementDaoToStatement(DebitCardStatementDao accountStatementDao) {
-        DebitCardStatement accountStatement = new DebitCardStatement();
+    private DebitCard mapStatementDaoToStatement(DebitCardDao accountStatementDao) {
+        DebitCard accountStatement = new DebitCard();
         BeanUtils.copyProperties(accountStatementDao, accountStatement);
         return accountStatement;
     }
 
-    private DebitCardStatementDao mapStatementToStatementDao(DebitCardStatement accountStatement) {
-        DebitCardStatementDao accountStatementDao = new DebitCardStatementDao();
+    private DebitCardDao mapStatementToStatementDao(DebitCard accountStatement) {
+        DebitCardDao accountStatementDao = new DebitCardDao();
         BeanUtils.copyProperties(accountStatement, accountStatementDao);
         return accountStatementDao;
     }
