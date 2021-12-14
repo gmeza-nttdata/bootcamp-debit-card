@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.debitcardservice.infrastructure.rest;
 
 import com.nttdata.bootcamp.debitcardservice.application.DebitCardOperations;
 import com.nttdata.bootcamp.debitcardservice.domain.DebitCard;
+import com.nttdata.bootcamp.debitcardservice.infrastructure.model.dto.DebitCardDto;
 import com.nttdata.bootcamp.debitcardservice.infrastructure.model.dto.OperationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class DebitCardController {
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<DebitCard>> getById(@PathVariable String id) {
+    public Mono<ResponseEntity<DebitCardDto>> getById(@PathVariable String id) {
         return Mono.just(id)
                 .flatMap(operations::get)
                 .map(ResponseEntity::ok)

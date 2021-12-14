@@ -6,6 +6,7 @@ import com.nttdata.bootcamp.debitcardservice.application.service.AccountService;
 import com.nttdata.bootcamp.debitcardservice.application.service.UserService;
 import com.nttdata.bootcamp.debitcardservice.domain.DebitCard;
 import com.nttdata.bootcamp.debitcardservice.domain.entity.Account;
+import com.nttdata.bootcamp.debitcardservice.infrastructure.model.dto.DebitCardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,11 @@ public class DebitCardOperationsImpl implements DebitCardOperations {
     }
 
     @Override
-    public Mono<DebitCard> get(String id) {
-        return repository.findById(id);
+    public Mono<DebitCardDto> get(String id) {
+        return repository.findById(id)
+                .flatMap(debitCard -> accountService.get(debitCard.getMainAccount())
+                    .map(account -> DebitCardDto.map(debitCard, account.getBalance()))
+                );
     }
 
     @Override
