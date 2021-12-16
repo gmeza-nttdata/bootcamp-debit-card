@@ -22,6 +22,17 @@ public class DebitCard {
 
     public DebitCard(String id) {
         this.id  = id;
+        this.creation = LocalDateTime.now();
+    }
+
+    public DebitCard(String id, Long number, String mainAccount, LocalDate expirationDate, String cvv) {
+        this.creation = LocalDateTime.now();
+        this.id = id;
+        this.number = number;
+        this.mainAccount = mainAccount;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
+        this.accounts = new ArrayList<>(){{add(mainAccount);}};
     }
     
     public void verifyAccounts() throws IllegalArgumentException {
